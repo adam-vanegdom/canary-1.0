@@ -1,0 +1,90 @@
+# this is an auto generated file. This will be overwritten
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      username
+      email
+      createdOn
+      updatedOn
+    }
+    nextToken
+  }
+}
+query GetSensorReading($id: ID!) {
+  getSensorReading(id: $id) {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+query ListSensorReadings(
+  $filter: ModelSensorReadingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listSensorReadings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      readingID
+      userID
+      location
+      aqi
+      createdOn
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetProfiles($id: ID!) {
+  getProfiles(id: $id) {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}
+query ListProfiless(
+  $filter: ModelProfilesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listProfiless(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      profileID
+      userID
+      gender
+      dob
+      respCond
+      activity
+      diet
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}

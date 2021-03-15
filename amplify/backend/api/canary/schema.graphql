@@ -1,0 +1,24 @@
+type User @model (timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}){
+    id: ID!
+    username: String!
+    email: String!
+}
+
+type SensorReading @model(timestamps:{createdAt: "createdOn"}){
+    readingID: ID!
+    userID: ID!
+    location: String
+    aqi: Float!
+}
+
+type Profiles @model {
+    profileID: ID!
+    userID: ID!
+    gender: Gender!
+    dob: AWSDateTime!
+    respCond: String
+    activity: String
+    diet: String
+}
+
+enum Gender { male female other }

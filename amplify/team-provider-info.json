@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-canary-dev-133730-authRole",
+      "UnauthRoleArn": "arn:aws:iam::447686770858:role/amplify-canary-dev-133730-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::447686770858:role/amplify-canary-dev-133730-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-canary-dev-133730-deployment",
+      "UnauthRoleName": "amplify-canary-dev-133730-unauthRole",
+      "StackName": "amplify-canary-dev-133730",
+      "StackId": "arn:aws:cloudformation:us-east-2:447686770858:stack/amplify-canary-dev-133730/1e8ca280-85b5-11eb-9391-0aa9b0a3d4e0",
+      "AmplifyAppId": "d2ose1p10h396q"
+    },
+    "categories": {
+      "auth": {
+        "canaryeb7c10a3": {}
+      }
+    }
+  }
+}

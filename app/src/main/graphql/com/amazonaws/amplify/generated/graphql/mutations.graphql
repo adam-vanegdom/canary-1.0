@@ -1,0 +1,130 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  createUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  updateUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
+) {
+  deleteUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+mutation CreateSensorReading(
+  $input: CreateSensorReadingInput!
+  $condition: ModelSensorReadingConditionInput
+) {
+  createSensorReading(input: $input, condition: $condition) {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+mutation UpdateSensorReading(
+  $input: UpdateSensorReadingInput!
+  $condition: ModelSensorReadingConditionInput
+) {
+  updateSensorReading(input: $input, condition: $condition) {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+mutation DeleteSensorReading(
+  $input: DeleteSensorReadingInput!
+  $condition: ModelSensorReadingConditionInput
+) {
+  deleteSensorReading(input: $input, condition: $condition) {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+mutation CreateProfiles(
+  $input: CreateProfilesInput!
+  $condition: ModelProfilesConditionInput
+) {
+  createProfiles(input: $input, condition: $condition) {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateProfiles(
+  $input: UpdateProfilesInput!
+  $condition: ModelProfilesConditionInput
+) {
+  updateProfiles(input: $input, condition: $condition) {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteProfiles(
+  $input: DeleteProfilesInput!
+  $condition: ModelProfilesConditionInput
+) {
+  deleteProfiles(input: $input, condition: $condition) {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}

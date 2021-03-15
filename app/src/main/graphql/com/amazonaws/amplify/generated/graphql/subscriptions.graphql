@@ -1,0 +1,103 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateUser {
+  onCreateUser {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    username
+    email
+    createdOn
+    updatedOn
+  }
+}
+subscription OnCreateSensorReading {
+  onCreateSensorReading {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+subscription OnUpdateSensorReading {
+  onUpdateSensorReading {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+subscription OnDeleteSensorReading {
+  onDeleteSensorReading {
+    id
+    readingID
+    userID
+    location
+    aqi
+    createdOn
+    updatedAt
+  }
+}
+subscription OnCreateProfiles {
+  onCreateProfiles {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateProfiles {
+  onUpdateProfiles {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteProfiles {
+  onDeleteProfiles {
+    id
+    profileID
+    userID
+    gender
+    dob
+    respCond
+    activity
+    diet
+    createdAt
+    updatedAt
+  }
+}

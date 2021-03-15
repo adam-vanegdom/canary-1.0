@@ -1,6 +1,8 @@
 package com.meetkumarpatel.canary;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,7 +10,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.meetkumarpatel.canary.managers.AuthManager;
+import com.meetkumarpatel.canary.managers.CloudManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,5 +32,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        final CloudManager cloudManager = new CloudManager();
+        cloudManager.initialize(getApplicationContext());
     }
 }
