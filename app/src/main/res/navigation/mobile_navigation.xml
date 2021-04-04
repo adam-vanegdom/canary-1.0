@@ -6,6 +6,12 @@
     app:startDestination="@+id/navigation_login">
 
     <fragment
+        android:id="@+id/navigation_signup"
+        android:name="com.meetkumarpatel.canary.ui.signUp.SignUpFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_signup" />
+
+    <fragment
         android:id="@+id/navigation_login"
         android:name="com.meetkumarpatel.canary.ui.login.LoginFragment"
         android:label="@string/title_login"

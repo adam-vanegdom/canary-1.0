@@ -43,9 +43,10 @@ mutation CreateSensorReading(
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }
@@ -57,9 +58,10 @@ mutation UpdateSensorReading(
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }
@@ -71,9 +73,10 @@ mutation DeleteSensorReading(
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }

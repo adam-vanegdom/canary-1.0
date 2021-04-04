@@ -4,11 +4,14 @@ type User @model (timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}){
     email: String!
 }
 
-type SensorReading @model(timestamps:{createdAt: "createdOn"}){
+type SensorReading @model
+@key(name: "readingsByDate", fields: ["userID", "createdAt"], queryField: "readingsByDate") {
     readingID: ID!
     userID: ID!
+    createdAt: String!
     location: String
     aqi: Float!
+    voc: Float!
 }
 
 type Profiles @model {

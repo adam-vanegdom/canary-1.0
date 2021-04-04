@@ -18,17 +18,22 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the SensorReading type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "SensorReadings")
+@Index(name = "readingsByDate", fields = {"userID","createdAt"})
 public final class SensorReading implements Model {
   public static final QueryField ID = field("SensorReading", "id");
   public static final QueryField READING_ID = field("SensorReading", "readingID");
   public static final QueryField USER_ID = field("SensorReading", "userID");
+  public static final QueryField CREATED_AT = field("SensorReading", "createdAt");
   public static final QueryField LOCATION = field("SensorReading", "location");
   public static final QueryField AQI = field("SensorReading", "aqi");
+  public static final QueryField VOC = field("SensorReading", "voc");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="ID", isRequired = true) String readingID;
   private final @ModelField(targetType="ID", isRequired = true) String userID;
+  private final @ModelField(targetType="String", isRequired = true) String createdAt;
   private final @ModelField(targetType="String") String location;
   private final @ModelField(targetType="Float", isRequired = true) Double aqi;
+  private final @ModelField(targetType="Float", isRequired = true) Double voc;
   public String getId() {
       return id;
   }
@@ -41,6 +46,10 @@ public final class SensorReading implements Model {
       return userID;
   }
   
+  public String getCreatedAt() {
+      return createdAt;
+  }
+  
   public String getLocation() {
       return location;
   }
@@ -49,12 +58,18 @@ public final class SensorReading implements Model {
       return aqi;
   }
   
-  private SensorReading(String id, String readingID, String userID, String location, Double aqi) {
+  public Double getVoc() {
+      return voc;
+  }
+  
+  private SensorReading(String id, String readingID, String userID, String createdAt, String location, Double aqi, Double voc) {
     this.id = id;
     this.readingID = readingID;
     this.userID = userID;
+    this.createdAt = createdAt;
     this.location = location;
     this.aqi = aqi;
+    this.voc = voc;
   }
   
   @Override
@@ -68,8 +83,10 @@ public final class SensorReading implements Model {
       return ObjectsCompat.equals(getId(), sensorReading.getId()) &&
               ObjectsCompat.equals(getReadingId(), sensorReading.getReadingId()) &&
               ObjectsCompat.equals(getUserId(), sensorReading.getUserId()) &&
+              ObjectsCompat.equals(getCreatedAt(), sensorReading.getCreatedAt()) &&
               ObjectsCompat.equals(getLocation(), sensorReading.getLocation()) &&
-              ObjectsCompat.equals(getAqi(), sensorReading.getAqi());
+              ObjectsCompat.equals(getAqi(), sensorReading.getAqi()) &&
+              ObjectsCompat.equals(getVoc(), sensorReading.getVoc());
       }
   }
   
@@ -79,8 +96,10 @@ public final class SensorReading implements Model {
       .append(getId())
       .append(getReadingId())
       .append(getUserId())
+      .append(getCreatedAt())
       .append(getLocation())
       .append(getAqi())
+      .append(getVoc())
       .toString()
       .hashCode();
   }
@@ -92,8 +111,10 @@ public final class SensorReading implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("readingID=" + String.valueOf(getReadingId()) + ", ")
       .append("userID=" + String.valueOf(getUserId()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("location=" + String.valueOf(getLocation()) + ", ")
-      .append("aqi=" + String.valueOf(getAqi()))
+      .append("aqi=" + String.valueOf(getAqi()) + ", ")
+      .append("voc=" + String.valueOf(getVoc()))
       .append("}")
       .toString();
   }
@@ -126,6 +147,8 @@ public final class SensorReading implements Model {
       null,
       null,
       null,
+      null,
+      null,
       null
     );
   }
@@ -134,8 +157,10 @@ public final class SensorReading implements Model {
     return new CopyOfBuilder(id,
       readingID,
       userID,
+      createdAt,
       location,
-      aqi);
+      aqi,
+      voc);
   }
   public interface ReadingIdStep {
     UserIdStep readingId(String readingId);
@@ -143,12 +168,22 @@ public final class SensorReading implements Model {
   
 
   public interface UserIdStep {
-    AqiStep userId(String userId);
+    CreatedAtStep userId(String userId);
+  }
+  
+
+  public interface CreatedAtStep {
+    AqiStep createdAt(String createdAt);
   }
   
 
   public interface AqiStep {
-    BuildStep aqi(Double aqi);
+    VocStep aqi(Double aqi);
+  }
+  
+
+  public interface VocStep {
+    BuildStep voc(Double voc);
   }
   
 
@@ -159,11 +194,13 @@ public final class SensorReading implements Model {
   }
   
 
-  public static class Builder implements ReadingIdStep, UserIdStep, AqiStep, BuildStep {
+  public static class Builder implements ReadingIdStep, UserIdStep, CreatedAtStep, AqiStep, VocStep, BuildStep {
     private String id;
     private String readingID;
     private String userID;
+    private String createdAt;
     private Double aqi;
+    private Double voc;
     private String location;
     @Override
      public SensorReading build() {
@@ -173,8 +210,10 @@ public final class SensorReading implements Model {
           id,
           readingID,
           userID,
+          createdAt,
           location,
-          aqi);
+          aqi,
+          voc);
     }
     
     @Override
@@ -185,16 +224,30 @@ public final class SensorReading implements Model {
     }
     
     @Override
-     public AqiStep userId(String userId) {
+     public CreatedAtStep userId(String userId) {
         Objects.requireNonNull(userId);
         this.userID = userId;
         return this;
     }
     
     @Override
-     public BuildStep aqi(Double aqi) {
+     public AqiStep createdAt(String createdAt) {
+        Objects.requireNonNull(createdAt);
+        this.createdAt = createdAt;
+        return this;
+    }
+    
+    @Override
+     public VocStep aqi(Double aqi) {
         Objects.requireNonNull(aqi);
         this.aqi = aqi;
+        return this;
+    }
+    
+    @Override
+     public BuildStep voc(Double voc) {
+        Objects.requireNonNull(voc);
+        this.voc = voc;
         return this;
     }
     
@@ -227,11 +280,13 @@ public final class SensorReading implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String readingId, String userId, String location, Double aqi) {
+    private CopyOfBuilder(String id, String readingId, String userId, String createdAt, String location, Double aqi, Double voc) {
       super.id(id);
       super.readingId(readingId)
         .userId(userId)
+        .createdAt(createdAt)
         .aqi(aqi)
+        .voc(voc)
         .location(location);
     }
     
@@ -246,8 +301,18 @@ public final class SensorReading implements Model {
     }
     
     @Override
+     public CopyOfBuilder createdAt(String createdAt) {
+      return (CopyOfBuilder) super.createdAt(createdAt);
+    }
+    
+    @Override
      public CopyOfBuilder aqi(Double aqi) {
       return (CopyOfBuilder) super.aqi(aqi);
+    }
+    
+    @Override
+     public CopyOfBuilder voc(Double voc) {
+      return (CopyOfBuilder) super.voc(voc);
     }
     
     @Override

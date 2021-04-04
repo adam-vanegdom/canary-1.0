@@ -9,6 +9,7 @@ type SensorReading @model(timestamps:{createdAt: "createdOn"}){
     userID: ID!
     location: String
     aqi: Float!
+    voc: Float!
 }
 
 type Profiles @model {

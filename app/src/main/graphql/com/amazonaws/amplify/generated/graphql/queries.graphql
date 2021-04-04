@@ -29,9 +29,10 @@ query GetSensorReading($id: ID!) {
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }
@@ -45,9 +46,10 @@ query ListSensorReadings(
       id
       readingID
       userID
+      createdAt
       location
       aqi
-      createdOn
+      voc
       updatedAt
     }
     nextToken
@@ -83,6 +85,35 @@ query ListProfiless(
       activity
       diet
       createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query ReadingsByDate(
+  $userID: ID
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSensorReadingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  readingsByDate(
+    userID: $userID
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      readingID
+      userID
+      createdAt
+      location
+      aqi
+      voc
       updatedAt
     }
     nextToken

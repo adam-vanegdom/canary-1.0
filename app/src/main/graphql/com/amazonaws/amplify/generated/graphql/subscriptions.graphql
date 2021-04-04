@@ -31,9 +31,10 @@ subscription OnCreateSensorReading {
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }
@@ -42,9 +43,10 @@ subscription OnUpdateSensorReading {
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }
@@ -53,9 +55,10 @@ subscription OnDeleteSensorReading {
     id
     readingID
     userID
+    createdAt
     location
     aqi
-    createdOn
+    voc
     updatedAt
   }
 }

@@ -1,73 +1,66 @@
 package com.meetkumarpatel.canary.ui.login;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.amplifyframework.auth.AuthUserAttributeKey;
-import com.amplifyframework.auth.options.AuthSignUpOptions;
-import com.amplifyframework.core.Amplify;
 import com.meetkumarpatel.canary.R;
 import com.meetkumarpatel.canary.managers.ApiManager;
 import com.meetkumarpatel.canary.managers.AuthManager;
 
+import java.util.UUID;
+
 public class LoginFragment extends Fragment {
 
-    private LoginViewModel loginViewModel;
+    private LoginViewModel mViewModel;
+    private AuthManager authManager;
+    private ApiManager apiManager;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        loginViewModel =
-                new ViewModelProvider(this).get(LoginViewModel.class);
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_login);
-        final Button signUpButton = root.findViewById(R.id.signUp);
-        final EditText userInput = root.findViewById(R.id.username);
-        final EditText passInput = root.findViewById(R.id.password);
+        this.authManager = new AuthManager();
+        this.apiManager = new ApiManager(getContext());
 
-        loginViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-
-        final AuthManager authManager = new AuthManager();
-        final ApiManager apiManager = new ApiManager();
-        authManager.initialize();
-
-
-        if (authManager.signedIn.get() == true) {
-            Log.i("AmplifyQuickstart", "SIGNED IN");
-        }
-        else{
-            Log.i("AmplifyQuickstart", "NOT SIGNED IN");
-        }
+        final Button loginButton = root.findViewById(R.id.loginButton);
+        final Button signUpButton = root.findViewById(R.id.newSignUp);
+        final EditText userLogin = root.findViewById(R.id.userLogin);
+        final EditText passLogin = root.findViewById(R.id.passLogin);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = userInput.getText().toString();
-                String password = passInput.getText().toString();
+                NavController nav = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                nav.navigate(R.id.navigation_signup);
+            }
+        });
 
-                authManager.logIn(username, password);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = userLogin.getText().toString();
+                String password = passLogin.getText().toString();
+                authManager.login(username, password);
+                apiManager.getUser(username);
 
-                if(authManager.signedIn.get() == true){
-                    apiManager.createUser(username, username);
-                }
+                NavController nav = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                nav.navigate(R.id.navigation_dashboard);
             }
         });
 
