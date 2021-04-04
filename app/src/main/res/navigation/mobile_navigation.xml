@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_dashboard">
+    app:startDestination="@id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigation_login"
@@ -15,7 +16,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.meetkumarpatel.canary.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_history"
@@ -33,5 +38,18 @@
         android:id="@+id/navigation_settings"
         android:name="com.meetkumarpatel.canary.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_bluetooth"
+            app:destination="@id/navigation_bluetooth" />
+    </fragment>
+    <fragment android:id="@+id/navigation_bluetooth"
+        android:name="com.meetkumarpatel.canary.ui.settings.ble.BluetoothFragment"
+        android:label="@string/title_bluetooth"
+        tools:layout="@layout/fragment_bluetooth" >
+        <action
+            android:id="@+id/action_navigation_bluetooth_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
+
 </navigation>
