@@ -158,44 +158,44 @@ public class BluetoothFragment extends Fragment implements DevicesAdapter.OnItem
     private void startScan(final ScannerStateLiveData state) {
         // First, check the Location permission. This is required on Marshmallow onwards in order
         // to scan for Bluetooth LE devices.
-        if (Utils.isLocationPermissionsGranted(getActivity())) {
-            noLocationPermissionView.setVisibility(View.GONE);
-
-            // Bluetooth must be enabled.
-            if (state.isBluetoothEnabled()) {
-                noBluetoothView.setVisibility(View.GONE);
-
-                // We are now OK to start scanning.
-                scannerViewModel.startScan();
-//                scanningView.setVisibility(View.VISIBLE);
-
-                if (!state.hasRecords()) {
-                    emptyView.setVisibility(View.VISIBLE);
-
-                    if (!Utils.isLocationRequired(getActivity()) || Utils.isLocationEnabled(getActivity())) {
-                        noLocationView.setVisibility(View.INVISIBLE);
-                    } else {
-                        noLocationView.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
-            } else {
-                noBluetoothView.setVisibility(View.VISIBLE);
-//                scanningView.setVisibility(View.INVISIBLE);
-                emptyView.setVisibility(View.GONE);
-                clear();
-            }
-        } else {
-            noLocationPermissionView.setVisibility(View.VISIBLE);
-            noBluetoothView.setVisibility(View.GONE);
-//            scanningView.setVisibility(View.INVISIBLE);
-            emptyView.setVisibility(View.GONE);
-
-            final boolean deniedForever = Utils.isLocationPermissionDeniedForever(getActivity());
-            grantPermissionButton.setVisibility(deniedForever ? View.GONE : View.VISIBLE);
-            permissionSettingsButton.setVisibility(deniedForever ? View.VISIBLE : View.GONE);
-        }
+//        if (Utils.isLocationPermissionsGranted(getActivity())) {
+//            noLocationPermissionView.setVisibility(View.GONE);
+//
+//            // Bluetooth must be enabled.
+//            if (state.isBluetoothEnabled()) {
+//                noBluetoothView.setVisibility(View.GONE);
+//
+//                // We are now OK to start scanning.
+//                scannerViewModel.startScan();
+////                scanningView.setVisibility(View.VISIBLE);
+//
+//                if (!state.hasRecords()) {
+//                    emptyView.setVisibility(View.VISIBLE);
+//
+//                    if (!Utils.isLocationRequired(getActivity()) || Utils.isLocationEnabled(getActivity())) {
+//                        noLocationView.setVisibility(View.INVISIBLE);
+//                    } else {
+//                        noLocationView.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    emptyView.setVisibility(View.GONE);
+//                }
+//            } else {
+//                noBluetoothView.setVisibility(View.VISIBLE);
+////                scanningView.setVisibility(View.INVISIBLE);
+//                emptyView.setVisibility(View.GONE);
+//                clear();
+//            }
+//        } else {
+//            noLocationPermissionView.setVisibility(View.VISIBLE);
+//            noBluetoothView.setVisibility(View.GONE);
+////            scanningView.setVisibility(View.INVISIBLE);
+//            emptyView.setVisibility(View.GONE);
+//
+//            final boolean deniedForever = Utils.isLocationPermissionDeniedForever(getActivity());
+//            grantPermissionButton.setVisibility(deniedForever ? View.GONE : View.VISIBLE);
+//            permissionSettingsButton.setVisibility(deniedForever ? View.VISIBLE : View.GONE);
+//        }
     }
 
     /**
