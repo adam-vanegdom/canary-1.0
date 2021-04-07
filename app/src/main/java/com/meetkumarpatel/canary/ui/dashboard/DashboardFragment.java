@@ -1,5 +1,6 @@
 package com.meetkumarpatel.canary.ui.dashboard;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -12,7 +13,10 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,11 +25,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,6 +51,9 @@ public class DashboardFragment extends Fragment {
     private DashboardViewModel dashboardViewModel;
 
     private final int REQUEST_ENABLE_BLUETOOTH = 1;
+    private final int REQUEST_PERMISSION_LOCATION = 2;
+
+    private boolean locationPermissionGranted = false;
 
     private final int NOT_CONNECTED = 0;
     private final int SEARCHING = 1;
@@ -107,6 +118,13 @@ public class DashboardFragment extends Fragment {
         final TextView humidityTextView = (TextView) view.findViewById(R.id.humidityTextView);
         final TextView pmAqiTextView = (TextView) view.findViewById(R.id.pmAqiTextView);
         final TextView gasAqiTextView = (TextView) view.findViewById(R.id.gasAqiTextView);
+        final TextView alertTextView = (TextView) view.findViewById(R.id.alertTextView);
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(50); //You can manage the blinking time with this parameter
+        animation.setStartOffset(20);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(Animation.INFINITE);
+        alertTextView.setAnimation(animation);
 
         dashboardViewModel.getPm1Data().observe(getViewLifecycleOwner(), pm1TextView::setText);
 
@@ -122,7 +140,29 @@ public class DashboardFragment extends Fragment {
 
         dashboardViewModel.getHumidityData().observe(getViewLifecycleOwner(), humidityTextView::setText);
 
-        dashboardViewModel.getPmAqiData().observe(getViewLifecycleOwner(), pmAqiTextView::setText);
+//        dashboardViewModel.getPmAqiData().observe(getViewLifecycleOwner(), pmAqiTextView::setText);
+        dashboardViewModel.getPmAqiData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                pmAqiTextView.setText(s);
+
+                int aqi = 0;
+                try {
+                    aqi = Integer.parseInt(s);
+
+                    if (aqi > 100) {
+                        alertTextView.setVisibility(View.VISIBLE);
+                        alertTextView.startAnimation(animation);
+                    }
+                    else {
+                        alertTextView.setVisibility(View.INVISIBLE);
+                        alertTextView.clearAnimation();
+                    }
+                } catch (NumberFormatException nfe) {
+                    Log.i(tag, "Could not parse PM AQI String to Int");
+                }
+            }
+        });
 
         dashboardViewModel.getGasAqiData().observe(getViewLifecycleOwner(), gasAqiTextView::setText);
 
@@ -142,6 +182,9 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.i(tag, "Initialize Scan");
+
+                locationPermission();
+
                 bluetoothAdapter.getBluetoothLeScanner().startScan(new BLEFoundDevice(GET_READINGS));
             }
         });
@@ -504,6 +547,43 @@ public class DashboardFragment extends Fragment {
             for (int i = 0; i < results.size(); i++) {
                 Log.i(tag, "Result [" + i + "]" + results.get(i).toString());
             }
+        }
+    }
+
+    private void locationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isLocationPermissionGranted()) {
+            requestLocationPermission();
+        }
+        else {
+            locationPermissionGranted = true;
+        }
+    }
+
+    private boolean isLocationPermissionGranted() {
+        locationPermissionGranted = ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return locationPermissionGranted;
+    }
+
+    private void requestLocationPermission() {
+        if (!isLocationPermissionGranted()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                            .setTitle("Location permission required")
+                            .setMessage("Starting from Android M (6.0), the system requires apps to be granted location access in order to scan for BLE devices.")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION};
+                                    requestPermissions(permission, REQUEST_PERMISSION_LOCATION);
+                                }
+                            })
+                            .create();
+                    alertDialog.show();
+                }
+            });
         }
     }
 }
