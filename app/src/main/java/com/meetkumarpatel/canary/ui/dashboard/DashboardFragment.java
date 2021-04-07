@@ -493,7 +493,18 @@ public class DashboardFragment extends Fragment {
             ScanRecord scanRecord = result.getScanRecord();
             if (scanRecord != null) {
                 if (scanRecord.getDeviceName() != null) {
-                    if (scanRecord.getDeviceName().equals("Canary")) {
+                    List<ParcelUuid> deviceServices = scanRecord.getServiceUuids();
+                    boolean deviceFound = false;
+
+                    UUID serviceWeWant = new UUID(0x000015231212EFDEL, 0x1523785FEABCD123L);
+                    for (int i = 0; i < deviceServices.size(); i++) {
+                        if (deviceServices.get(i).getUuid().equals(serviceWeWant)) {
+                            deviceFound = true;
+                            break;
+                        }
+                    }
+
+                    if (deviceFound) {
                         bluetoothAdapter.getBluetoothLeScanner().stopScan(this);
 
                         handler.sendEmptyMessage(FOUND);
